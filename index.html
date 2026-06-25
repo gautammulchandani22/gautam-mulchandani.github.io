@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gautam Mulchandani | Finance & Strategy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #000000;
+      --black2: #0d0d0d;
+      --black3: #141414;
+      --black4: #1a1a1a;
+      --border: rgba(255,255,255,0.08);
+      --border-hover: rgba(201,168,76,0.5);
+      --gold: #C9A84C;
+      --gold2: #e2c06a;
+      --gold-glow: rgba(201,168,76,0.12);
+      --white: #ffffff;
+      --offwhite: #f0ebe0;
+      --muted: #666666;
+      --muted2: #888888;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    section { scroll-margin-top: 70px; }
+
+    body {
+      background: var(--black);
+      color: var(--offwhite);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── CUSTOM CURSOR ── */
+    #cursor-dot {
+      position: fixed;
+      width: 8px; height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      will-change: left, top;
+    }
+    #cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1px solid rgba(201,168,76,0.45);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width 0.35s cubic-bezier(0.22,1,0.36,1),
+                  height 0.35s cubic-bezier(0.22,1,0.36,1),
+                  border-color 0.3s;
+      will-change: left, top;
+    }
+    body.cursor-hover #cursor-dot { width: 5px; height: 5px; }
+    body.cursor-hover #cursor-ring { width: 60px; height: 60px; border-color: var(--gold); }
+    a, button, .proj-card, .exp-item, .tag, .nav-links a { cursor: none; }
+
+    /* ── BG CANVAS ── */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 6%;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--white);
+      letter-spacing: 0.02em;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted2);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 6%;
+      padding-top: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* animated grain texture */
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      opacity: 0.4;
+    }
+
+    /* large gold ring decoration */
+    .hero-ring {
+      position: absolute;
+      right: -200px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.08);
+      pointer-events: none;
+    }
+    .hero-ring::before {
+      content: '';
+      position: absolute;
+      inset: 60px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.05);
+    }
+    .hero-ring::after {
+      content: '';
+      position: absolute;
+      inset: 130px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.04);
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 800px; }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--gold);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.1s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.6rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.25s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+    .hero-name .name-italic {
+      font-style: italic;
+      color: var(--gold);
+      display: block;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--muted2);
+      max-width: 520px;
+      font-weight: 300;
+      line-height: 1.75;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.55s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+    .btn-gold {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--black);
+      padding: 0.85rem 2rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-gold:hover { background: var(--gold2); transform: translateY(-2px); }
+    .btn-outline {
+      display: inline-block;
+      background: transparent;
+      color: var(--muted2);
+      padding: 0.85rem 2rem;
+      border: 1px solid rgba(255,255,255,0.12);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* stats ticker */
+    .hero-stats {
+      display: flex;
+      gap: 0;
+      margin-top: 5rem;
+      border-top: 1px solid var(--border);
+      opacity: 0;
+      animation: fadeUp 0.8s 0.7s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+    .stat-item {
+      flex: 1;
+      padding: 1.8rem 0;
+      padding-right: 2rem;
+      border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; padding-right: 0; padding-left: 2rem; }
+    .stat-item:not(:first-child) { padding-left: 2rem; }
+    .stat-num {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-num em { color: var(--gold); font-style: normal; }
+    .stat-lbl {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── SECTIONS ── */
+    .section-wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 7rem 6%;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--gold);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 3.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    /* ── ABOUT ── */
+    .about-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 5rem;
+      align-items: start;
+    }
+    .about-body p {
+      color: var(--muted2);
+      font-size: 0.97rem;
+      font-weight: 300;
+      margin-bottom: 1.2rem;
+      line-height: 1.8;
+    }
+    .about-body p strong { color: var(--offwhite); font-weight: 500; }
+    .about-sidebar {
+      border: 1px solid var(--border);
+      padding: 2rem;
+      background: var(--black2);
+    }
+    .sidebar-row {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-row:first-child { padding-top: 0; }
+    .sidebar-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .sidebar-key {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--gold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+    .sidebar-val {
+      font-size: 0.88rem;
+      color: var(--offwhite);
+      font-weight: 400;
+    }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--black2); }
+    .exp-list { display: flex; flex-direction: column; }
+    .exp-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 3rem;
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .exp-item:last-child { border-bottom: none; }
+    .exp-meta { display: flex; flex-direction: column; gap: 0.4rem; padding-top: 0.1rem; }
+    .exp-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+    }
+    .exp-company {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .exp-body {}
+    .exp-role {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--white);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+    .exp-points { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+    .exp-points li {
+      font-size: 0.9rem;
+      color: var(--muted2);
+      padding-left: 1.4rem;
+      position: relative;
+      font-weight: 300;
+      line-height: 1.65;
+    }
+    .exp-points li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.6em;
+      width: 6px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    /* ── PROJECTS ── */
+    .proj-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .proj-card {
+      background: var(--black);
+      padding: 2.2rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.25s;
+    }
+    .proj-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s cubic-bezier(0.22,1,0.36,1);
+    }
+    .proj-card:hover { background: var(--black3); }
+    .proj-card:hover::after { transform: scaleX(1); }
+    .proj-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--gold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      opacity: 0.8;
+    }
+    .proj-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--white);
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      line-height: 1.3;
+    }
+    .proj-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.65;
+    }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--black2); }
+    .skills-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .skill-block {
+      background: var(--black2);
+      padding: 2.2rem;
+    }
+    .skill-block-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--gold);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+    }
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tag {
+      font-size: 0.78rem;
+      color: var(--offwhite);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.85rem;
+      background: var(--black4);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .tag:hover { border-color: rgba(201,168,76,0.4); color: var(--gold); }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+    }
+    .contact-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 8rem 6%;
+    }
+    .contact-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 1.4rem;
+      letter-spacing: -0.02em;
+    }
+    .contact-heading em { font-style: italic; color: var(--gold); }
+    .contact-sub {
+      font-size: 0.95rem;
+      color: var(--muted2);
+      font-weight: 300;
+      margin-bottom: 3.5rem;
+      line-height: 1.75;
+    }
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted2);
+      text-decoration: none;
+      padding: 0.75rem 1.4rem;
+      border: 1px solid var(--border);
+      letter-spacing: 0.06em;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .contact-link:hover { border-color: var(--gold); color: var(--gold); }
+    .contact-link svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      padding: 1.8rem 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .about-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .skills-layout { grid-template-columns: 1fr; }
+      .exp-item { grid-template-columns: 1fr; gap: 0.6rem; }
+      .hero-stats { flex-wrap: wrap; }
+      .stat-item { flex: 1 1 45%; border-right: none !important; border-bottom: 1px solid var(--border); padding: 1.2rem 0; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .hero-name { font-size: 3rem; }
+      .stat-item { flex: 1 1 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<canvas id="bg-canvas"></canvas>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<nav>
+  <div class="nav-logo">G<span>.</span>M</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-ring"></div>
+  <div class="hero-content">
+    <span class="hero-eyebrow">MS Finance · DePaul University · Chicago</span>
+    <h1 class="hero-name">
+      Gautam
+      <span class="name-italic">Mulchandani</span>
+    </h1>
+    <p class="hero-sub">Finance professional specializing in FP&amp;A, investment analysis, and corporate strategy — turning complex data into decisions that move organizations forward.</p>
+    <div class="hero-cta">
+      <a class="btn-gold" href="#contact">Get in touch</a>
+      <a class="btn-outline" href="#experience">View work</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-num"><span class="ticker" data-target="4">0</span><em>+</em></span>
+        <span class="stat-lbl">Years experience</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num"><span class="ticker" data-target="5">0</span></span>
+        <span class="stat-lbl">Finance projects</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">$<span class="ticker" data-target="6">0</span><em>M+</em></span>
+        <span class="stat-lbl">Revenue managed</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num"><span class="ticker" data-target="3">0</span></span>
+        <span class="stat-lbl">Certifications</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-wrap">
+    <span class="section-label reveal">About</span>
+    <h2 class="section-title reveal reveal-delay-1">The story so far</h2>
+    <div class="about-layout">
+      <div class="about-body reveal reveal-delay-2">
+        <p>I'm a <strong>MS Finance candidate at DePaul University's Kellstadt Graduate School of Business</strong> (graduating December 2026), recipient of a $12,800 merit scholarship. My background spans financial planning &amp; analysis, investment research, and operational finance across nonprofit, boutique finance, and family business environments.</p>
+        <p>At <strong>Wild City</strong> in New York, I support funding strategy and corporate outreach — building financial briefs and performance analyses for senior leadership. Previously at <strong>Aarth Associates</strong>, I built repeatable financial workflows and authored quarterly performance memos across 50+ active opportunities.</p>
+        <p>I'm drawn to roles where analytical rigor and clear communication converge — where a well-built model or sharp variance commentary can actually shift a decision. I combine <strong>Python, Excel, and data visualization</strong> with a finance foundation covering derivatives, NLP in finance, and portfolio management.</p>
+        <p>Outside work: markets, Hindu philosophy and Vedic thought, aviation, and the 2026 FIFA World Cup. I serve as <strong>VP of Social Strategy at KFA</strong> (Kellstadt Finance Association).</p>
+      </div>
+      <div class="about-sidebar reveal reveal-delay-3">
+        <div class="sidebar-row">
+          <div class="sidebar-key">Location</div>
+          <div class="sidebar-val">Chicago, IL</div>
+        </div>
+        <div class="sidebar-row">
+          <div class="sidebar-key">Graduate</div>
+          <div class="sidebar-val">MS Finance, DePaul University — Dec 2026</div>
+        </div>
+        <div class="sidebar-row">
+          <div class="sidebar-key">Undergraduate</div>
+          <div class="sidebar-val">BCom Financial Markets, Jai Hind College, Mumbai — 2023</div>
+        </div>
+        <div class="sidebar-row">
+          <div class="sidebar-key">Focus</div>
+          <div class="sidebar-val">FP&amp;A · Investment Analysis · Corporate Finance</div>
+        </div>
+        <div class="sidebar-row">
+          <div class="sidebar-key">Status</div>
+          <div class="sidebar-val">Open to finance roles across the US (CPT authorized)</div>
+        </div>
+        <div class="sidebar-row">
+          <div class="sidebar-key">Contact</div>
+          <div class="sidebar-val">gautammulchandani22@gmail.com</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-wrap">
+    <span class="section-label reveal">Experience</span>
+    <h2 class="section-title reveal reveal-delay-1">Where I've worked</h2>
+    <div class="exp-list">
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <span class="exp-date">May 2026 – Present</span>
+          <span class="exp-company">Wild City · NYC (Remote)</span>
+        </div>
+        <div class="exp-body">
+          <p class="exp-role">Funding Strategy Intern</p>
+          <ul class="exp-points">
+            <li>Support financial planning and forecasting across marketing campaigns and media business lines, analyzing revenue and expense trends to surface opportunities and risks.</li>
+            <li>Prepare structured financial reports and ad-hoc analyses, synthesizing variance commentary into concise deliverables for executive and corporate stakeholders.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <span class="exp-date">Jul 2024 – Dec 2024</span>
+          <span class="exp-company">Aarth Associates · Nagpur</span>
+        </div>
+        <div class="exp-body">
+          <p class="exp-role">Junior Portfolio &amp; Investment Analyst</p>
+          <ul class="exp-points">
+            <li>Engaged cross-functionally across 50+ active opportunities, reviewing financial statements and translating findings into structured analyses supporting planning decisions.</li>
+            <li>Built repeatable financial planning and reporting workflows, reducing analytical errors by 10–15% through systematic process improvement.</li>
+            <li>Authored quarterly variance summaries with audience-appropriate storytelling that directly informed senior leadership decisions.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <span class="exp-date">May 2023 – May 2024</span>
+          <span class="exp-company">AONE Sales · Family Business</span>
+        </div>
+        <div class="exp-body">
+          <p class="exp-role">Office &amp; Finance Manager</p>
+          <ul class="exp-points">
+            <li>Partnered with leadership to analyze operating performance across a company with INR 50+ Cr ($6M+ USD) annual revenue, developing recommendations that improved profitability.</li>
+            <li>Built advanced Excel-based Annual Operating Plans, upside/base/downside scenarios, and KPI dashboards supporting 5-year long-range planning.</li>
+            <li>Prepared PowerPoint decks and financial performance summaries communicating variance drivers and expense trends to leadership.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <span class="exp-date">Oct 2021 – Oct 2022</span>
+          <span class="exp-company">Placement Experts USA · Remote</span>
+        </div>
+        <div class="exp-body">
+          <p class="exp-role">Project Manager Intern</p>
+          <ul class="exp-points">
+            <li>Managed deal-related workflows independently across time zones, delivering structured analytical reports with high accuracy under shifting priorities in a fully remote environment.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-wrap">
+    <span class="section-label reveal">Projects</span>
+    <h2 class="section-title reveal reveal-delay-1">Strategic &amp; analytical work</h2>
+    <div class="proj-grid">
+
+      <div class="proj-card reveal">
+        <div class="proj-chip">Python · Regression · Finance</div>
+        <p class="proj-name">Airline Reliability vs. Financial Performance</p>
+        <p class="proj-desc">Built a full data pipeline merging BTS on-time data, SEC EDGAR financials, and Yahoo Finance returns across 80 carrier-quarter observations. Ran pooled OLS with carrier fixed effects and HC1 robust SEs — confirmed cancellation rate as the strongest predictor of operating margin.</p>
+      </div>
+
+      <div class="proj-card reveal reveal-delay-1">
+        <div class="proj-chip">M&amp;A · DCF · Valuation</div>
+        <p class="proj-name">Monmouth Inc. Acquisition Analysis</p>
+        <p class="proj-desc">Full financial analysis including DCF valuation, comparable company analysis, WACC, and multi-scenario sensitivity modeling. Delivered structured variance commentary and an executive-ready financial memo for internal review.</p>
+      </div>
+
+      <div class="proj-card reveal reveal-delay-2">
+        <div class="proj-chip">Competitive Analysis · Benchmarking</div>
+        <p class="proj-name">Coca-Cola vs. PepsiCo Benchmarking</p>
+        <p class="proj-desc">5-year trend analysis and long-range plan benchmarking across profitability, efficiency, leverage, and cost ratios — presented as dynamic financial reporting with audience-appropriate commentary.</p>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-chip">Python · Monte Carlo · Risk</div>
+        <p class="proj-name">ARK Invest Portfolio Optimization</p>
+        <p class="proj-desc">Monte Carlo simulation and scenario optimization in Python, stress-testing financial assumptions under volatile conditions to build a quantitative risk and forecasting framework for operating plan scenario analysis.</p>
+      </div>
+
+      <div class="proj-card reveal reveal-delay-1">
+        <div class="proj-chip">Python · OLS · Factor Model</div>
+        <p class="proj-name">Fama-French Three-Factor Model</p>
+        <p class="proj-desc">OLS regression in Python (statsmodels) analyzing factor exposures across a multi-asset portfolio. Findings translated into clear analytical commentary to support long-range planning and forecasting assumptions.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-wrap">
+    <span class="section-label reveal">Skills</span>
+    <h2 class="section-title reveal reveal-delay-1">Tools &amp; competencies</h2>
+    <div class="skills-layout">
+      <div class="skill-block reveal">
+        <div class="skill-block-title">Finance &amp; Strategy</div>
+        <div class="tag-cloud">
+          <span class="tag">FP&amp;A</span>
+          <span class="tag">Annual Operating Plans</span>
+          <span class="tag">Variance Analysis</span>
+          <span class="tag">Scenario Modeling</span>
+          <span class="tag">DCF / LBO</span>
+          <span class="tag">M&amp;A Due Diligence</span>
+          <span class="tag">Long-Range Planning</span>
+          <span class="tag">KPI Dashboards</span>
+          <span class="tag">Quarterly Forecasting</span>
+        </div>
+      </div>
+      <div class="skill-block reveal reveal-delay-1">
+        <div class="skill-block-title">Software &amp; Tools</div>
+        <div class="tag-cloud">
+          <span class="tag">Advanced Excel</span>
+          <span class="tag">Python (pandas, NumPy)</span>
+          <span class="tag">statsmodels / sklearn</span>
+          <span class="tag">Power BI</span>
+          <span class="tag">Tableau</span>
+          <span class="tag">Bloomberg Terminal</span>
+          <span class="tag">Capital IQ</span>
+          <span class="tag">SQL</span>
+          <span class="tag">Salesforce</span>
+        </div>
+      </div>
+      <div class="skill-block reveal reveal-delay-2">
+        <div class="skill-block-title">Communication &amp; Delivery</div>
+        <div class="tag-cloud">
+          <span class="tag">Executive Presentations</span>
+          <span class="tag">Financial Storytelling</span>
+          <span class="tag">Business Partnering</span>
+          <span class="tag">Ad-hoc Analysis</span>
+          <span class="tag">PowerPoint</span>
+          <span class="tag">Google Sheets</span>
+        </div>
+      </div>
+      <div class="skill-block reveal reveal-delay-3">
+        <div class="skill-block-title">Certifications &amp; Leadership</div>
+        <div class="tag-cloud">
+          <span class="tag">Bloomberg Market Concepts</span>
+          <span class="tag">Goldman Sachs Job Sim</span>
+          <span class="tag">JPMorgan IB Job Sim</span>
+          <span class="tag">VP — KFA Social Strategy</span>
+          <span class="tag">Asian American Business Summit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <span class="section-label reveal" style="justify-content: center;">Contact</span>
+    <h2 class="contact-heading reveal reveal-delay-1">Open to<br/><em>new opportunities</em></h2>
+    <p class="contact-sub reveal reveal-delay-2">Actively seeking finance roles across FP&amp;A, investment analysis, corporate finance, and beyond — open to opportunities anywhere in the US. I respond promptly.</p>
+    <div class="contact-links reveal reveal-delay-3">
+      <a class="contact-link" href="mailto:gautammulchandani22@gmail.com">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        Email me
+      </a>
+      <a class="contact-link" href="https://linkedin.com/in/gautam-mulchandani" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+        LinkedIn
+      </a>
+      <a class="contact-link" href="tel:3124043408">
+        <svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+        312-404-3408
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Gautam Mulchandani</span>
+  <span>Chicago, IL</span>
+</footer>
+
+<script>
+  /* ── SCROLL REVEALS ── */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ── NUMBER TICKERS ── */
+  function tick(el, target, dur) {
+    let start = null;
+    const ease = t => t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+    (function step(ts) {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / dur, 1);
+      el.textContent = Math.floor(ease(p) * target);
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = target;
+    })(performance.now());
+  }
+  const tickIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        tick(e.target, parseInt(e.target.dataset.target), 2000);
+        tickIO.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.ticker').forEach(el => tickIO.observe(el));
+
+  /* ── CUSTOM CURSOR ── */
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  let mx = window.innerWidth/2, my = window.innerHeight/2;
+  let rx = mx, ry = my;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top  = my + 'px';
+  });
+
+  (function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animRing);
+  })();
+
+  document.querySelectorAll('a, button, .proj-card, .tag, .nav-links a').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+  });
+
+  /* ── ANIMATED CANVAS BACKGROUND ── */
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  const GOLD = 'rgba(201,168,76,';
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  /* Floating particles */
+  const PARTICLES = 55;
+  const particles = Array.from({length: PARTICLES}, () => ({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    r: Math.random() * 1.2 + 0.3,
+    vx: (Math.random() - 0.5) * 0.18,
+    vy: (Math.random() - 0.5) * 0.18,
+    a: Math.random() * 0.35 + 0.05
+  }));
+
+  /* Grid lines */
+  const GRID_COLS = 12;
+  const GRID_ROWS = 8;
+
+  /* Constellation connections */
+  const CONNECT_DIST = 130;
+
+  let frame = 0;
+
+  function drawGrid() {
+    const cw = canvas.width, ch = canvas.height;
+    const csx = cw / GRID_COLS;
+    const csy = ch / GRID_ROWS;
+    ctx.strokeStyle = GOLD + '0.03)';
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i <= GRID_COLS; i++) {
+      ctx.beginPath();
+      ctx.moveTo(i * csx, 0);
+      ctx.lineTo(i * csx, ch);
+      ctx.stroke();
+    }
+    for (let j = 0; j <= GRID_ROWS; j++) {
+      ctx.beginPath();
+      ctx.moveTo(0, j * csy);
+      ctx.lineTo(cw, j * csy);
+      ctx.stroke();
+    }
+  }
+
+  /* Slow drifting large rings */
+  const rings = [
+    { x: 0.75, y: 0.25, r: 320, speed: 0.0003, phase: 0 },
+    { x: 0.15, y: 0.7,  r: 200, speed: 0.0004, phase: 1.2 },
+    { x: 0.88, y: 0.78, r: 260, speed: 0.00025, phase: 2.5 }
+  ];
+
+  function drawRings() {
+    const cw = canvas.width, ch = canvas.height;
+    rings.forEach(ring => {
+      const pulse = Math.sin(frame * ring.speed + ring.phase) * 0.012 + 0.018;
+      ctx.strokeStyle = GOLD + pulse + ')';
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.arc(ring.x * cw, ring.y * ch, ring.r, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.strokeStyle = GOLD + (pulse * 0.5) + ')';
+      ctx.beginPath();
+      ctx.arc(ring.x * cw, ring.y * ch, ring.r * 0.65, 0, Math.PI * 2);
+      ctx.stroke();
+    });
+  }
+
+  function drawParticles() {
+    const cw = canvas.width, ch = canvas.height;
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0) p.x = cw;
+      if (p.x > cw) p.x = 0;
+      if (p.y < 0) p.y = ch;
+      if (p.y > ch) p.y = 0;
+
+      const pulse = Math.sin(frame * 0.012 + p.a * 10) * 0.15 + 0.25;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = GOLD + pulse + ')';
+      ctx.fill();
+    });
+  }
+
+  function drawConnections() {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < CONNECT_DIST) {
+          const alpha = (1 - dist / CONNECT_DIST) * 0.08;
+          ctx.strokeStyle = GOLD + alpha + ')';
+          ctx.lineWidth = 0.4;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  /* Mouse-attract effect */
+  let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+  document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+
+  function drawMouseGlow() {
+    const grad = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 180);
+    grad.addColorStop(0, GOLD + '0.045)');
+    grad.addColorStop(1, GOLD + '0)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(mouseX, mouseY, 180, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawGrid();
+    drawRings();
+    drawConnections();
+    drawParticles();
+    drawMouseGlow();
+    frame++;
+    requestAnimationFrame(animate);
+  }
+  animate();
+</script>
+</body>
+</html>
