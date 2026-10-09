@@ -476,6 +476,39 @@
       text-transform: uppercase;
       margin-bottom: 1.4rem;
     }
+    /* role badge + finance control-loop strip */
+    .exp-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.4);
+      padding: 0.2rem 0.5rem;
+      margin-left: 0.6rem;
+      vertical-align: middle;
+    }
+    .exp-flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem;
+      margin-top: 1.2rem;
+    }
+    .flow-step {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--offwhite);
+      border: 1px solid var(--border);
+      background: var(--black4);
+      padding: 0.3rem 0.65rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .exp-item:hover .flow-step { border-color: rgba(201,168,76,0.35); }
+    .flow-step:hover { color: var(--gold); }
+    .flow-arrow { color: var(--gold); font-size: 0.75rem; }
+
     .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.5rem; }
     .tag {
       font-size: 0.78rem;
@@ -611,11 +644,11 @@
       Gautam
       <span class="name-italic">Mulchandani</span>
     </h1>
-    <p class="hero-sub">Finance professional specializing in FP&amp;A, investment analysis, and corporate strategy — turning complex data into decisions that move organizations forward.</p>
+    <p class="hero-sub">Finance professional with hands-on experience across complete finance — turning numbers into decisions that move organizations forward.</p>
     <div class="hero-cta">
       <a class="btn-gold" href="#contact">Get in touch</a>
       <a class="btn-outline" href="#experience">View work</a>
-      <a class="btn-outline" href="/resume.pdf" download>Download resume</a>
+      <a class="btn-outline" href="resume.pdf" download>Download resume</a>
     </div>
     <div class="hero-stats">
       <div class="stat-item">
@@ -646,7 +679,7 @@
     <div class="about-layout">
       <div class="about-body reveal reveal-delay-2">
         <p>I'm a <strong>MS Finance candidate at DePaul University's Kellstadt Graduate School of Business</strong> (graduating December 2026), recipient of a $12,800 merit scholarship. My background spans financial planning &amp; analysis, investment research, and operational finance across nonprofit, boutique finance, and family business environments.</p>
-        <p>At <strong>Wild City</strong> in New York, I support funding strategy and corporate outreach — building financial briefs and performance analyses for senior leadership. Previously at <strong>Aarth Associates</strong>, I built repeatable financial workflows and authored quarterly performance memos across 50+ active opportunities.</p>
+        <p>Most recently at <strong>Wild City</strong> in New York, I supported funding strategy and corporate outreach — building financial briefs and performance analyses for senior leadership. Before that, at <strong>Placement Experts USA</strong> I tracked project budgets against actual spend and reconciled vendor invoices, and at <strong>Aarth Associates</strong>, I built repeatable financial workflows and authored quarterly performance memos across 50+ active opportunities.</p>
         <p>I'm drawn to roles where analytical rigor and clear communication converge — where a well-built model or sharp variance commentary can actually shift a decision. I combine <strong>Python, Excel, and data visualization</strong> with a finance foundation covering derivatives, NLP in finance, and portfolio management.</p>
         <p>Outside work: markets, Hindu philosophy and Vedic thought, aviation, and the 2026 FIFA World Cup. I serve as <strong>VP of Social Strategy at KFA</strong> (Kellstadt Finance Association).</p>
       </div>
@@ -665,11 +698,11 @@
         </div>
         <div class="sidebar-row">
           <div class="sidebar-key">Focus</div>
-          <div class="sidebar-val">FP&amp;A · Investment Analysis · Corporate Finance</div>
+          <div class="sidebar-val">Complete Finance</div>
         </div>
         <div class="sidebar-row">
           <div class="sidebar-key">Status</div>
-          <div class="sidebar-val">Open to finance roles across the US (CPT authorized)</div>
+          <div class="sidebar-val">Open to full-time finance roles across the US</div>
         </div>
         <div class="sidebar-row">
           <div class="sidebar-key">Contact</div>
@@ -689,14 +722,14 @@
 
       <div class="exp-item reveal">
         <div class="exp-meta">
-          <span class="exp-date">May 2026 – Present</span>
+          <span class="exp-date">May 2026 – Sep 2026</span>
           <span class="exp-company">Wild City · NYC (Remote)</span>
         </div>
         <div class="exp-body">
           <p class="exp-role">Funding Strategy Intern</p>
           <ul class="exp-points">
-            <li>Support financial planning and forecasting across marketing campaigns and media business lines, analyzing revenue and expense trends to surface opportunities and risks.</li>
-            <li>Prepare structured financial reports and ad-hoc analyses, synthesizing variance commentary into concise deliverables for executive and corporate stakeholders.</li>
+            <li>Supported financial planning and forecasting across marketing campaigns and media business lines, analyzing revenue and expense trends to surface opportunities and risks.</li>
+            <li>Prepared structured financial reports and ad-hoc analyses, synthesizing variance commentary into concise deliverables for executive and corporate stakeholders.</li>
           </ul>
         </div>
       </div>
@@ -734,13 +767,22 @@
       <div class="exp-item reveal">
         <div class="exp-meta">
           <span class="exp-date">Oct 2021 – Oct 2022</span>
-          <span class="exp-company">Placement Experts USA · Remote</span>
+          <span class="exp-company">Placement Experts USA · St. Louis (Remote)</span>
         </div>
         <div class="exp-body">
-          <p class="exp-role">Project Manager Intern</p>
+          <p class="exp-role">Financial Project Analyst <span class="exp-badge">Full-time</span></p>
           <ul class="exp-points">
-            <li>Managed deal-related workflows independently across time zones, delivering structured analytical reports with high accuracy under shifting priorities in a fully remote environment.</li>
+            <li>Tracked project spending against approved budgets and investigated variances to pinpoint where and why costs moved.</li>
+            <li>Reconciled vendor invoices against purchase orders and supporting documentation to confirm every charge was backed up.</li>
+            <li>Supported cash flow forecasting by combining stakeholder input with project timelines to anticipate upcoming spend.</li>
           </ul>
+          <div class="exp-flow" aria-label="Project finance control loop">
+            <span class="flow-step">Budget</span><span class="flow-arrow">→</span>
+            <span class="flow-step">Actual Spend</span><span class="flow-arrow">→</span>
+            <span class="flow-step">Variance Review</span><span class="flow-arrow">→</span>
+            <span class="flow-step">Invoice ↔ PO Match</span><span class="flow-arrow">→</span>
+            <span class="flow-step">Cash Flow Forecast</span>
+          </div>
         </div>
       </div>
 
@@ -853,7 +895,7 @@
   <div class="contact-inner">
     <span class="section-label reveal" style="justify-content: center;">Contact</span>
     <h2 class="contact-heading reveal reveal-delay-1">Open to<br/><em>new opportunities</em></h2>
-    <p class="contact-sub reveal reveal-delay-2">Actively seeking finance roles across FP&amp;A, investment analysis, corporate finance, and beyond — open to opportunities anywhere in the US. I respond promptly.</p>
+    <p class="contact-sub reveal reveal-delay-2">Actively seeking full-time roles in finance — open to opportunities anywhere in the US. I respond promptly.</p>
     <div class="contact-links reveal reveal-delay-3">
       <a class="contact-link" href="mailto:gautammulchandani22@gmail.com">
         <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
@@ -871,7 +913,7 @@
         <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM5 7V6h14v1H5z"/></svg>
         Schedule a call
       </a>
-      <a class="contact-link" href="/resume.pdf" download>
+      <a class="contact-link" href="resume.pdf" download>
         <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
         Download resume
       </a>
